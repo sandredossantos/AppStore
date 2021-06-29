@@ -7,6 +7,7 @@ namespace AppStore.Domain.Interfaces
     public interface IApplicationService
     {
         Task<List<Application>> GetAllApps();
+        long BuyApp();
         Task<Application> RegisterApplication(Application application);
     }
 }

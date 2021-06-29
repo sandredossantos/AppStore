@@ -50,5 +50,13 @@ namespace AppStore.Api.Controllers
 
             return Ok(application);
         }
+
+        [HttpPost("BuyApp")]
+        public IActionResult BuyApp()
+        {
+            _applicationService.BuyApp();
+
+            return Ok();
+        }
     }
 }

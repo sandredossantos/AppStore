@@ -1,4 +1,5 @@
-﻿using AppStore.Api.Models;
+﻿using AppStore.Api.Mapper;
+using AppStore.Api.Models.JsonInput;
 using AppStore.Domain.Entities;
 using AppStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -13,18 +14,20 @@ namespace AppStore.Api.Controllers
     public class AppStoreController : ControllerBase
     {
         private readonly IApplicationService _applicationService;
+        private readonly IApplicationMapper _applicationMapper;
 
-        public AppStoreController(IApplicationService applicationService)
+        public AppStoreController(IApplicationService applicationService, IApplicationMapper applicationMapper)
         {
             _applicationService = applicationService;
+            _applicationMapper = applicationMapper;
         }
 
-        [HttpGet("GetAllApps")]
-        public async Task<IActionResult> GetAllApps()
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
         {
             try
             {
-                List<Application> allApps = await _applicationService.GetAllApps();
+                List<Application> allApps = await _applicationService.GetAll();
 
                 return Ok(allApps);
             }
@@ -41,14 +44,11 @@ namespace AppStore.Api.Controllers
 
             if (!ModelState.IsValid) return BadRequest();
 
-            Application application = new Application();
-            application.Code = Guid.NewGuid().ToString();
-            application.Name = applicationViewModel.Name;
-            application.Value = applicationViewModel.Value;
+            Application application = _applicationMapper.ModelToEntity(applicationViewModel);
 
-            application = await _applicationService.RegisterApplication(application);
+            await _applicationService.RegisterApplication(application);
 
-            return Ok(application);
+            return Ok(new { Success = true, Data = "the application has been registered" });
         }
 
         [HttpPost("BuyApp")]

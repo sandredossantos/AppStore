@@ -16,24 +16,23 @@ namespace AppStore.Service
             _aplicationRepository = aplicationRepository;
         }
 
-        public async Task<List<Application>> GetAllApps()
+        public async Task<List<Application>> GetAll()
         {
-            List<Application> applications = await _aplicationRepository.GetAllApps();
+            List<Application> applications = await _aplicationRepository.GetAll();
 
             return applications;
+        }
+        public async Task<Application> RegisterApplication(Application application)
+        {
+            await _aplicationRepository.Insert(application);
+
+            return application;
         }
         public long BuyApp()
         {
             SendMessage();
 
             return 1;
-        }
-
-        public async Task<Application> RegisterApplication(Application application)
-        {
-            await _aplicationRepository.RegisterApplication(application);
-
-            return application;
         }
 
         private void SendMessage()

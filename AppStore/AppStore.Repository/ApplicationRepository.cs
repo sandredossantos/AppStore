@@ -15,15 +15,15 @@ namespace AppStore.Repository
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _applicationCollection = database.GetCollection<Application>(settings.CollectionName);
+            _applicationCollection = database.GetCollection<Application>(nameof(Application));
         }
 
-        public async Task<List<Application>> GetAllApps()
+        public async Task<List<Application>> GetAll()
         {
             return await _applicationCollection.Find(a => true).ToListAsync();
         }
 
-        public async Task<Application> RegisterApplication(Application application)
+        public async Task<Application> Insert(Application application)
         {
             await _applicationCollection.InsertOneAsync(application);
 

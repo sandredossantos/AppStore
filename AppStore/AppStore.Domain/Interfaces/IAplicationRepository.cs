@@ -6,7 +6,7 @@ namespace AppStore.Domain.Interfaces
 {
     public interface IAplicationRepository
     {
-        Task<List<Application>> GetAllApps();
-        Task<Application> RegisterApplication(Application application);
+        Task<List<Application>> GetAll();
+        Task<Application> Insert(Application application);
     }
 }

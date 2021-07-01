@@ -13,6 +13,7 @@ namespace AppStore.Service
             services.Configure<RepositorySettings>(configuration.GetSection(nameof(RepositorySettings)));
             services.AddSingleton<IRepositorySettings>(r => r.GetRequiredService<IOptions<RepositorySettings>>().Value);
             services.AddScoped<IAplicationRepository, ApplicationRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }

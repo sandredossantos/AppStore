@@ -14,6 +14,8 @@ namespace AppStore.Api.Configuration
         {
             services.AddScoped<IApplicationService, ApplicationService>();
             services.AddScoped<IApplicationMapper, ApplicationMapper>();
+            services.AddScoped<IPurchaseService, PurchaseService>();
+            services.AddScoped<IPurchaseMapper, PurchaseMapper>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserMapper, UserMapper>();
             services.ConfigureRepositoryServices(configuration);

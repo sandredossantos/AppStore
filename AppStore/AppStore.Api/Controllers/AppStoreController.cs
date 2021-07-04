@@ -3,6 +3,7 @@ using AppStore.Api.Models.JsonInput;
 using AppStore.Domain.Entities;
 using AppStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,19 +16,27 @@ namespace AppStore.Api.Controllers
     {
         private readonly IApplicationService _applicationService;
         private readonly IApplicationMapper _applicationMapper;
+        private readonly IPurchaseMapper _purchaseMapper;
+        private readonly IPurchaseService _purchaseService;
 
-        public AppStoreController(IApplicationService applicationService, IApplicationMapper applicationMapper)
+        public AppStoreController(
+            IApplicationService applicationService,
+            IApplicationMapper applicationMapper,
+            IPurchaseMapper purchaseMapper,
+            IPurchaseService purchaseService)
         {
             _applicationService = applicationService;
             _applicationMapper = applicationMapper;
+            _purchaseMapper = purchaseMapper;
+            _purchaseService = purchaseService;
         }
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("GetAllApps")]
+        public async Task<IActionResult> GetAllApps()
         {
             try
             {
-                List<Application> allApps = await _applicationService.GetAll();
+                List<Application> allApps = await _applicationService.GetAllApps();
 
                 return Ok(allApps);
             }
@@ -37,8 +46,8 @@ namespace AppStore.Api.Controllers
             }
         }
 
-        [HttpPost("RegisterApplication")]
-        public async Task<IActionResult> RegisterApplication(ApplicationViewModel applicationViewModel)
+        [HttpPost("RegisterApp")]
+        public async Task<IActionResult> RegisterApp(ApplicationViewModel applicationViewModel)
         {
             TryValidateModel(applicationViewModel);
 
@@ -48,15 +57,34 @@ namespace AppStore.Api.Controllers
 
             await _applicationService.RegisterApplication(application);
 
-            return Ok(new { Success = true, Data = "the application has been registered" });
+            return Ok(new { Success = true, Message = "the application has been registered" });
         }
 
-        [HttpPost("BuyApp")]
-        public IActionResult BuyApp()
+        [HttpPost("PurchaseApp")]
+        public IActionResult PurchaseApp(PurchaseModel purchaseModel)
         {
-            _applicationService.BuyApp();
+            TryValidateModel(purchaseModel);
 
-            return Ok();
+            if (!ModelState.IsValid) return BadRequest();
+
+            Purchase purchase = _purchaseMapper.ModelToEntity(purchaseModel);
+
+            _purchaseService.CreatePurchaseOrder(purchase);            
+
+            return Ok(new { Success = true, Message = "the application has been registered" });
         }
+
+        //[HttpGet("GetMyApps")]
+        //public async Task<IActionResult> GetMyApps()
+        //{
+        //    try
+        //    {
+        //        return Ok();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
     }
 }

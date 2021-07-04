@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppStore.Service", "AppStor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Message", "Message", "{FC59640B-1057-4B68-B488-993985DEC2A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppStore.Consumer", "AppStore.Consumer\AppStore.Consumer.csproj", "{BDE6789D-8EB4-4722-A3E4-C214D4DB7490}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppStore.Consumer", "AppStore.Consumer\AppStore.Consumer.csproj", "{BDE6789D-8EB4-4722-A3E4-C214D4DB7490}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

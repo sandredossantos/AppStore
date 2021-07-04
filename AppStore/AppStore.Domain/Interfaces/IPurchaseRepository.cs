@@ -5,6 +5,8 @@ namespace AppStore.Domain.Interfaces
 {
     public interface IPurchaseRepository
     {
-        Task<Purchase> Insert(Purchase purchase);        
+        Task<Purchase> Insert(Purchase purchase);
+        void UpdateStatus(Purchase purchase, string status);
+        Purchase GetById(string id);
     }
 }

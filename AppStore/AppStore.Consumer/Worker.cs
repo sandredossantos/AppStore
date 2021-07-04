@@ -1,6 +1,9 @@
 ﻿using AppStore.Domain.Entities;
+using AppStore.Domain.Interfaces;
+using AppStore.Service;
 using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -11,12 +14,27 @@ namespace AppStore.Consumer
 {
     class Worker
     {
-        private static IMongoCollection<Purchase> _purchaseCollection;
+        private readonly IPurchaseService _purchaseService;
+        private readonly IUserService _userService;
+
+        private static IConfiguration configuration = new ConfigurationBuilder()
+               .AddJsonFile("appsettings.json", true, true)
+               .SetBasePath(Directory.GetCurrentDirectory())
+               .AddEnvironmentVariables()
+               .Build();
+
+        public Worker(IPurchaseService purchaseService, IUserService userService)
+        {
+            _purchaseService = purchaseService;
+            _userService = userService;
+        }
         static void Main(string[] args)
         {
-            ConsumeQueue();
+            var host = CreateHostBuilder(args).Build();
+            host.Services.GetRequiredService<Worker>().Run();
         }
-        private static void ConsumeQueue()
+
+        public void Run()
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };
             using (var connection = factory.CreateConnection())
@@ -34,7 +52,7 @@ namespace AppStore.Consumer
                     var body = ea.Body.ToArray();
                     var message = Encoding.UTF8.GetString(body);
 
-                    Process(message);
+                    Process(message);                    
 
                     Console.WriteLine(" [x] Received {0}", message);
                 };
@@ -46,26 +64,26 @@ namespace AppStore.Consumer
                 Console.ReadLine();
             }
         }
-        private static void Process(string message)
+
+        private void Process(string message)
         {
-            var builder = new ConfigurationBuilder()
-               .SetBasePath(Directory.GetCurrentDirectory())
-               .AddJsonFile($"appsettings.json");
-            var configuration = builder.Build();
+            Purchase purchase = _purchaseService.GetById(message);
 
-            var client = new MongoClient(configuration.GetConnectionString("ConnectionString"));
-            var dataBase = client.GetDatabase("AppStore");
+            if (purchase != null)
+                _purchaseService.UpdateStatus(purchase, "Processed");
+        }
 
-            _purchaseCollection = dataBase.GetCollection<Purchase>(nameof(Purchase));
+        private static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureServices(services =>
+                {
+                    services.AddTransient<Worker>();
 
-            Purchase purchase = _purchaseCollection.Find(
-                p => p.Id == message
-                ).FirstOrDefault();
-
-            var filter = Builders<Purchase>.Filter.Eq("Id", message);
-            var update = Builders<Purchase>.Update.Set("Status", "Processed");
-
-            _purchaseCollection.UpdateOne(filter, update);
+                    services.AddTransient<IPurchaseService, PurchaseService>();
+                    services.AddTransient<IUserService, UserService>();
+                    services.ConfigureRepositoryServices(configuration);                    
+                });
         }
     }
 }

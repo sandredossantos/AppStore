@@ -15,11 +15,29 @@ namespace AppStore.Repository
 
             _purchaseCollection = database.GetCollection<Purchase>(nameof(Purchase));
         }
+
+        public Purchase GetById(string id)
+        {
+            Purchase purchase = _purchaseCollection.Find(
+               p => p.Id == id
+               ).FirstOrDefault();
+
+            return purchase;
+        }
+
         public async Task<Purchase> Insert(Purchase purchase)
         {
             await _purchaseCollection.InsertOneAsync(purchase);
 
             return purchase;
+        }
+
+        public void UpdateStatus(Purchase purchase, string status)
+        {
+            var filter = Builders<Purchase>.Filter.Eq("Id", purchase.Id);
+            var update = Builders<Purchase>.Update.Set("Status", status);
+
+            _purchaseCollection.UpdateOne(filter, update);
         }
     }
 }

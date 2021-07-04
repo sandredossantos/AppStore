@@ -24,6 +24,18 @@ namespace AppStore.Service
             SendMessage(purchase.Id);
         }
 
+        public void UpdateStatus(Purchase purchase, string status)
+        {
+            _purchaseRepository.UpdateStatus(purchase, status);            
+        }
+
+        public Purchase GetById(string id)
+        {
+            Purchase purchase = _purchaseRepository.GetById(id);
+
+            return purchase;
+        }
+
         private void SendMessage(string message)
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };

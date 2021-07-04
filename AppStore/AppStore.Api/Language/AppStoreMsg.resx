@@ -117,7 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="EXC0001" xml:space="preserve">
-    <value />
+  <data name="INF0001" xml:space="preserve">
+    <value>INF0001 - User created successfully</value>
+  </data>
+  <data name="INF0002" xml:space="preserve">
+    <value>INF0002 - The user was not created successfully</value>
+  </data>
+  <data name="INF0003" xml:space="preserve">
+    <value>INF0003 - Error querying available applications</value>
+  </data>
+  <data name="INF0004" xml:space="preserve">
+    <value>INF0004 - The application has been registered</value>
+  </data>
+  <data name="INF0005" xml:space="preserve">
+    <value>INF0005 - The application has not been registered</value>
+  </data>
+  <data name="INF0006" xml:space="preserve">
+    <value>INF0006 - Purchase made successfully</value>
+  </data>
+  <data name="INF0007" xml:space="preserve">
+    <value>INF0007 - Purchase not made</value>
+  </data>
+  <data name="INF0008" xml:space="preserve">
+    <value>INF0008 - Some input parameter is incorrect</value>
   </data>
 </root>

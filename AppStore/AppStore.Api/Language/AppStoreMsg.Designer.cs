@@ -61,11 +61,74 @@ namespace AppStore.Api.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to INF0001 - User created successfully.
         /// </summary>
-        public static string EXC0001 {
+        public static string INF0001 {
             get {
-                return ResourceManager.GetString("EXC0001", resourceCulture);
+                return ResourceManager.GetString("INF0001", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INF0002 - The user was not created successfully.
+        /// </summary>
+        public static string INF0002 {
+            get {
+                return ResourceManager.GetString("INF0002", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INF0003 - Error querying available applications.
+        /// </summary>
+        public static string INF0003 {
+            get {
+                return ResourceManager.GetString("INF0003", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INF0004 - The application has been registered.
+        /// </summary>
+        public static string INF0004 {
+            get {
+                return ResourceManager.GetString("INF0004", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INF0005 - The application has not been registered.
+        /// </summary>
+        public static string INF0005 {
+            get {
+                return ResourceManager.GetString("INF0005", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INF0006 - Purchase made successfully.
+        /// </summary>
+        public static string INF0006 {
+            get {
+                return ResourceManager.GetString("INF0006", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INF0007 - Purchase not made.
+        /// </summary>
+        public static string INF0007 {
+            get {
+                return ResourceManager.GetString("INF0007", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INF0008 - Some input parameter is incorrect.
+        /// </summary>
+        public static string INF0008 {
+            get {
+                return ResourceManager.GetString("INF0008", resourceCulture);
             }
         }
     }

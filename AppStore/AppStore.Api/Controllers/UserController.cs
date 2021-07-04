@@ -1,7 +1,9 @@
-﻿using AppStore.Api.Mapper;
-using AppStore.Api.Models.JsonInput;
+﻿using AppStore.Api.Language;
+using AppStore.Api.Mapper;
+using AppStore.Api.Models;
 using AppStore.Domain.Entities;
 using AppStore.Domain.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -20,8 +22,10 @@ namespace AppStore.Api.Controllers
             _userService = userService;
             _userMapper = userMapper;
         }
-
+        
         [HttpPost("CreateUser")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateUser(UserViewModel userViewModel)
         {
             try
@@ -29,19 +33,17 @@ namespace AppStore.Api.Controllers
                 TryValidateModel(userViewModel);
 
                 if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
+                    throw new Exception(AppStoreMsg.INF0008);
 
                 User user = _userMapper.ModelToEntity(userViewModel);
 
                 await _userService.CreateUser(user);
 
-                return Ok(new { Success = true, Data = "user created successfully" });
+                return Ok(new { Success = true, Message = AppStoreMsg.INF0001 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(new { Success = false, Data = ex.Message });
+                return BadRequest(new { Success = false, Message = AppStoreMsg.INF0002 });
             }
         }
     }

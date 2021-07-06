@@ -12,8 +12,7 @@ namespace AppStore.Consumer
         {
             services.Configure<RepositorySettings>(configuration.GetSection(nameof(RepositorySettings)));
             services.AddSingleton<IRepositorySettings>(r => r.GetRequiredService<IOptions<RepositorySettings>>().Value);
-            services.AddScoped<IPurchaseRepository, PurchaseRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPurchaseRepository, PurchaseRepository>();            
 
             return services;
         }

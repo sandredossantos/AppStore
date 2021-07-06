@@ -25,20 +25,9 @@ namespace AppStore.Repository
             return purchase;
         }
 
-        public Purchase GetById(string id)
-        {
-            Purchase purchase = _purchaseCollection.Find(
-               p => p.Id == id
-               ).FirstOrDefault();
-
-            return purchase;
-        }
-
-        public async Task<Purchase> Insert(Purchase purchase)
+        public async Task Insert(Purchase purchase)
         {
             await _purchaseCollection.InsertOneAsync(purchase);
-
-            return purchase;
         }
 
         public void UpdateStatus(Purchase purchase, string status)
@@ -47,6 +36,14 @@ namespace AppStore.Repository
             var update = Builders<Purchase>.Update.Set("Status", status);
 
             _purchaseCollection.UpdateOne(filter, update);
+        }
+        public Purchase GetById(string id)
+        {
+            Purchase purchase = _purchaseCollection.Find(
+               p => p.Id == id
+               ).FirstOrDefault();
+
+            return purchase;
         }
     }
 }

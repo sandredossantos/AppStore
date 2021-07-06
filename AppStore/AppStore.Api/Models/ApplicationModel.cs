@@ -2,7 +2,7 @@
 
 namespace AppStore.Api.Models
 {
-    public class ApplicationViewModel
+    public class ApplicationModel
     {
         [Required]
         public string Name { get; set; }

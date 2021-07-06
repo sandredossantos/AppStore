@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace AppStore.Domain.Interfaces
 {
-    public interface IAplicationRepository
+    public interface IApplicationRepository
     {
         Task<List<Application>> GetAll();
         Task<Application> Insert(Application application);

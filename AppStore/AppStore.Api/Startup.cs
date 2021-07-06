@@ -19,7 +19,6 @@ namespace AppStore.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
 
             services.ResolveDependencies(Configuration);

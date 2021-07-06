@@ -9,9 +9,9 @@ namespace AppStore.Service
 {
     public class ApplicationService : IApplicationService
     {
-        private readonly IAplicationRepository _aplicationRepository;
+        private readonly IApplicationRepository _aplicationRepository;
 
-        public ApplicationService(IAplicationRepository aplicationRepository)
+        public ApplicationService(IApplicationRepository aplicationRepository)
         {
             _aplicationRepository = aplicationRepository;
         }
@@ -22,14 +22,12 @@ namespace AppStore.Service
 
             return applications;
         }
-        public async Task<Application> RegisterApplication(Application application)
+        public async Task RegisterApp(Application application)
         {
             if (CheckExistingApplicationByCode(application.Code).Result == true)
                 throw new Exception(ServiceExceptionMsg.EXC0002);
 
             await _aplicationRepository.Insert(application);
-
-            return application;
         }
 
         private async Task<bool> CheckExistingApplicationByCode(string code)

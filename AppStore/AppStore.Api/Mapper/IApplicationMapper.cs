@@ -5,6 +5,6 @@ namespace AppStore.Api.Mapper
 {
     public interface IApplicationMapper
     {
-        Application ModelToEntity(ApplicationViewModel applicationViewModel);
+        Application ModelToEntity(ApplicationModel applicationViewModel);
     }
 }

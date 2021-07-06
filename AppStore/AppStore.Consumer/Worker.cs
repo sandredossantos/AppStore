@@ -9,13 +9,13 @@ using RabbitMQ.Client.Events;
 using System;
 using System.IO;
 using System.Text;
+using static AppStore.Domain.Entities.Enums;
 
 namespace AppStore.Consumer
 {
     class Worker
     {
         private readonly IPurchaseService _purchaseService;
-        private readonly IUserService _userService;
 
         private static IConfiguration configuration = new ConfigurationBuilder()
                .AddJsonFile("appsettings.json", true, true)
@@ -23,10 +23,9 @@ namespace AppStore.Consumer
                .AddEnvironmentVariables()
                .Build();
 
-        public Worker(IPurchaseService purchaseService, IUserService userService)
+        public Worker(IPurchaseService purchaseService)
         {
             _purchaseService = purchaseService;
-            _userService = userService;
         }
         static void Main(string[] args)
         {
@@ -37,8 +36,8 @@ namespace AppStore.Consumer
         public void Run()
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
+            using (IConnection connection = factory.CreateConnection())
+            using (IModel channel = connection.CreateModel())
             {
                 channel.QueueDeclare(queue: "purchase",
                                      durable: false,
@@ -49,10 +48,10 @@ namespace AppStore.Consumer
                 var consumer = new EventingBasicConsumer(channel);
                 consumer.Received += (model, ea) =>
                 {
-                    var body = ea.Body.ToArray();
-                    var message = Encoding.UTF8.GetString(body);
+                    byte[] body = ea.Body.ToArray();
+                    string message = Encoding.UTF8.GetString(body);
 
-                    Process(message);                    
+                    Process(message);
 
                     Console.WriteLine(" [x] Received {0}", message);
                 };
@@ -69,8 +68,9 @@ namespace AppStore.Consumer
         {
             Purchase purchase = _purchaseService.GetById(message);
 
-            if (purchase != null)
-                _purchaseService.UpdateStatus(purchase, "Processed");
+            string status = Enum.GetName(typeof(PurchaseStatus), PurchaseStatus.Processed);
+
+            _purchaseService.UpdateStatus(purchase, status);
         }
 
         private static IHostBuilder CreateHostBuilder(string[] args)
@@ -79,10 +79,8 @@ namespace AppStore.Consumer
                 .ConfigureServices(services =>
                 {
                     services.AddTransient<Worker>();
-
                     services.AddTransient<IPurchaseService, PurchaseService>();
-                    services.AddTransient<IUserService, UserService>();
-                    services.ConfigureRepositoryServices(configuration);                    
+                    services.ConfigureRepositoryServices(configuration);
                 });
         }
     }

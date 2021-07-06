@@ -47,9 +47,9 @@ namespace AppStore.Api.Controllers
         {
             try
             {
-                List<Application> allApps = await _applicationService.GetAllApps();
-
-                return Ok(allApps);
+                List<Application> applications = await _applicationService.GetAllApps();
+                
+                return Ok(applications);
             }
             catch (Exception ex)
             {
@@ -61,7 +61,7 @@ namespace AppStore.Api.Controllers
         [HttpPost("RegisterApp")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RegisterApp(ApplicationViewModel applicationViewModel)
+        public async Task<IActionResult> RegisterApp(ApplicationModel applicationViewModel)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace AppStore.Api.Controllers
 
                 Application application = _applicationMapper.ModelToEntity(applicationViewModel);
 
-                await _applicationService.RegisterApplication(application);
+                await _applicationService.RegisterApp(application);
 
                 return Ok(new { Success = true, Message = AppStoreMsg.INF0004 });
             }
@@ -86,7 +86,7 @@ namespace AppStore.Api.Controllers
         [HttpPost("PurchaseApp")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult PurchaseApp(PurchaseModel purchaseModel)
+        public async Task<IActionResult> PurchaseApp(PurchaseModel purchaseModel)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace AppStore.Api.Controllers
 
                 Purchase purchase = _purchaseMapper.ModelToEntity(purchaseModel);
 
-                _purchaseService.CreatePurchaseOrder(purchase);
+                await _purchaseService.CreatePurchaseOrder(purchase);
 
                 return Ok(new { Success = true, Message = AppStoreMsg.INF0006 });
             }

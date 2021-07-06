@@ -16,7 +16,7 @@ namespace AppStore.Api.Controllers
     [Route("[controller]")]
     public class ApplicationController : ControllerBase
     {
-        private readonly IApplicationService _applicationService;        
+        private readonly IApplicationService _applicationService;
         private readonly IApplicationMapper _applicationMapper;
         private readonly ILogger _logger;
 
@@ -28,7 +28,7 @@ namespace AppStore.Api.Controllers
             )
         {
             _applicationService = applicationService;
-            _applicationMapper = applicationMapper;           
+            _applicationMapper = applicationMapper;
             _logger = logger;
         }
 
@@ -40,12 +40,25 @@ namespace AppStore.Api.Controllers
             try
             {
                 List<Application> applications = await _applicationService.GetAllApps();
-                
-                return Ok(applications);
+
+                List<object> applicationsResponse = new List<object>();
+
+                foreach (Application application in applications)
+                {
+                    applicationsResponse.Add(
+                        new
+                        {
+                            Name = application.Name,
+                            Code = application.Code,
+                            Value = application.Value
+                        });
+                }
+
+                return Ok(new { Success = true, Message = applicationsResponse });
             }
             catch (Exception ex)
             {
-                _logger.LogCritical(ex.Message);
+                _logger.LogError(ex.Message);
                 return BadRequest(new { Success = false, Message = AppStoreMsg.INF0003 });
             }
         }

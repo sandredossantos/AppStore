@@ -70,15 +70,6 @@ namespace AppStore.Api.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INF0002 - The user was not created successfully.
-        /// </summary>
-        public static string INF0002 {
-            get {
-                return ResourceManager.GetString("INF0002", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to INF0003 - Error querying available applications.
         /// </summary>
         public static string INF0003 {
@@ -97,29 +88,11 @@ namespace AppStore.Api.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INF0005 - The application has not been registered.
-        /// </summary>
-        public static string INF0005 {
-            get {
-                return ResourceManager.GetString("INF0005", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to INF0006 - Purchase made successfully.
         /// </summary>
         public static string INF0006 {
             get {
                 return ResourceManager.GetString("INF0006", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to INF0007 - Purchase not made.
-        /// </summary>
-        public static string INF0007 {
-            get {
-                return ResourceManager.GetString("INF0007", resourceCulture);
             }
         }
         
@@ -138,6 +111,15 @@ namespace AppStore.Api.Language {
         public static string INF0009 {
             get {
                 return ResourceManager.GetString("INF0009", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INF0010 - Code {0} for application does not exist.
+        /// </summary>
+        public static string INF0010 {
+            get {
+                return ResourceManager.GetString("INF0010", resourceCulture);
             }
         }
     }

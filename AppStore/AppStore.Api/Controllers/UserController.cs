@@ -19,7 +19,8 @@ namespace AppStore.Api.Controllers
         private readonly IUserMapper _userMapper;
         private readonly ILogger _logger;
 
-        public UserController(
+        public UserController
+            (
             IUserService userService, 
             IUserMapper userMapper,
             ILogger<UserController> logger

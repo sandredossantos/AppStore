@@ -53,8 +53,8 @@ namespace AppStore.Api.Configuration
             {
                 Title = "AppStore",
                 Version = description.ApiVersion.ToString(),
-                Description = "Api criada para isso",
-                Contact = new OpenApiContact() { Name = "sandre", Email = "sandre@hotmail.com" },
+                Description = "Api de compras de aplicativos, com processamento assíncrono.",
+                Contact = new OpenApiContact() { Name = "sandredossantos", Email = "sandre@hotmail.com" },
                 TermsOfService = new Uri("https://opensource.org/licenses/MIT"),
                 License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
             };

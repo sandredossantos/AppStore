@@ -6,5 +6,6 @@ namespace AppStore.Domain.Interfaces
     public interface IUserService
     {
         Task CreateUser(User user);
+        Task<User> GetByTaxNumber(string taxNumber);
     }
 }

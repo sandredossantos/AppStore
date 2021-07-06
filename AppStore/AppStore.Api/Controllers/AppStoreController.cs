@@ -1,9 +1,11 @@
-﻿using AppStore.Api.Mapper;
-using AppStore.Api.Models.JsonInput;
+﻿using AppStore.Api.Language;
+using AppStore.Api.Mapper;
+using AppStore.Api.Models;
 using AppStore.Domain.Entities;
 using AppStore.Domain.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,23 +17,32 @@ namespace AppStore.Api.Controllers
     public class AppStoreController : ControllerBase
     {
         private readonly IApplicationService _applicationService;
+        private readonly IPurchaseService _purchaseService;
+        private readonly IUserService _userService;
         private readonly IApplicationMapper _applicationMapper;
         private readonly IPurchaseMapper _purchaseMapper;
-        private readonly IPurchaseService _purchaseService;
+        private readonly ILogger _logger;
 
         public AppStoreController(
             IApplicationService applicationService,
+            IPurchaseService purchaseService,
+            IUserService userService,
             IApplicationMapper applicationMapper,
             IPurchaseMapper purchaseMapper,
-            IPurchaseService purchaseService)
+            ILogger<AppStoreController> logger
+            )
         {
             _applicationService = applicationService;
+            _purchaseService = purchaseService;
+            _userService = userService;
             _applicationMapper = applicationMapper;
             _purchaseMapper = purchaseMapper;
-            _purchaseService = purchaseService;
+            _logger = logger;
         }
 
         [HttpGet("GetAllApps")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAllApps()
         {
             try
@@ -40,51 +51,64 @@ namespace AppStore.Api.Controllers
 
                 return Ok(allApps);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                _logger.LogCritical(ex.Message);
+                return BadRequest(new { Success = false, Message = AppStoreMsg.INF0003 });
             }
         }
 
         [HttpPost("RegisterApp")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegisterApp(ApplicationViewModel applicationViewModel)
         {
-            TryValidateModel(applicationViewModel);
+            try
+            {
+                TryValidateModel(applicationViewModel);
 
-            if (!ModelState.IsValid) return BadRequest();
+                if (!ModelState.IsValid)
+                    throw new Exception(AppStoreMsg.INF0008);
 
-            Application application = _applicationMapper.ModelToEntity(applicationViewModel);
+                Application application = _applicationMapper.ModelToEntity(applicationViewModel);
 
-            await _applicationService.RegisterApplication(application);
+                await _applicationService.RegisterApplication(application);
 
-            return Ok(new { Success = true, Message = "the application has been registered" });
+                return Ok(new { Success = true, Message = AppStoreMsg.INF0004 });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(new { Success = false, Message = ex.Message });
+            }
         }
 
         [HttpPost("PurchaseApp")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult PurchaseApp(PurchaseModel purchaseModel)
         {
-            TryValidateModel(purchaseModel);
+            try
+            {
+                TryValidateModel(purchaseModel);
 
-            if (!ModelState.IsValid) return BadRequest();
+                if (!ModelState.IsValid)
+                    throw new Exception(AppStoreMsg.INF0008);
 
-            Purchase purchase = _purchaseMapper.ModelToEntity(purchaseModel);
+                if (_userService.GetByTaxNumber(purchaseModel.TaxNumber).Result == null)
+                    throw new Exception(string.Format(AppStoreMsg.INF0009, purchaseModel.TaxNumber));
 
-            _purchaseService.CreatePurchaseOrder(purchase);            
+                Purchase purchase = _purchaseMapper.ModelToEntity(purchaseModel);
 
-            return Ok(new { Success = true, Message = "the application has been registered" });
+                _purchaseService.CreatePurchaseOrder(purchase);
+
+                return Ok(new { Success = true, Message = AppStoreMsg.INF0006 });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(new { Success = false, Message = ex.Message });
+            }
         }
-
-        //[HttpGet("GetMyApps")]
-        //public async Task<IActionResult> GetMyApps()
-        //{
-        //    try
-        //    {
-        //        return Ok();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
     }
 }

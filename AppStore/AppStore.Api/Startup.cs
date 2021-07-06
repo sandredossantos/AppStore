@@ -26,7 +26,9 @@ namespace AppStore.Api
 
             services.WebApiConfig();
 
-            services.AddSwaggerConfig();       
+            services.AddSwaggerConfig();
+
+            services.AddLoggingConfiguration();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
@@ -50,6 +52,8 @@ namespace AppStore.Api
             });
 
             app.UseSwaggerConfig(provider);
+
+            app.UseLoggingConfiguration();
         }
     }
 }

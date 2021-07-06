@@ -1,5 +1,7 @@
 ﻿using AppStore.Domain.Entities;
 using AppStore.Domain.Interfaces;
+using AppStore.Service.Language;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -22,9 +24,21 @@ namespace AppStore.Service
         }
         public async Task<Application> RegisterApplication(Application application)
         {
+            if (CheckExistingApplicationByCode(application.Code).Result == true)
+                throw new Exception(ServiceExceptionMsg.EXC0002);
+
             await _aplicationRepository.Insert(application);
 
             return application;
+        }
+
+        private async Task<bool> CheckExistingApplicationByCode(string code)
+        {
+            Application application = await _aplicationRepository.GetByCode(code);
+
+            if (application != null) return true;
+
+            return false;
         }
     }
 }

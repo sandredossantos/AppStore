@@ -1,9 +1,16 @@
-﻿namespace AppStore.Api.Models.JsonInput
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AppStore.Api.Models
 {
     public class ApplicationViewModel
     {
+        [Required]
         public string Name { get; set; }
+
+        [Required]
         public decimal Value { get; set; }
+
+        [Required]
         public string Code { get; set; }
     }
 }

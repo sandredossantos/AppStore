@@ -1,4 +1,4 @@
-﻿using AppStore.Api.Models.JsonInput;
+﻿using AppStore.Api.Models;
 using AppStore.Domain.Entities;
 using System;
 

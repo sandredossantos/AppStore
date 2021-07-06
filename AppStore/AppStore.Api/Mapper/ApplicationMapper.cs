@@ -5,14 +5,16 @@ namespace AppStore.Api.Mapper
 {
     public class ApplicationMapper : IApplicationMapper
     {
-        public Application ModelToEntity(ApplicationViewModel applicationViewModel)
+        public Application ModelToEntity(ApplicationModel applicationViewModel)
         {
-            return new Application()
+            Application application = new Application()
             {
                 Name = applicationViewModel.Name,
                 Value = applicationViewModel.Value,
                 Code = applicationViewModel.Code
             };
+
+            return application;
         }
     }
 }

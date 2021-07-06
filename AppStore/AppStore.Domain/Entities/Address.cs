@@ -1,8 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System;
-
-namespace AppStore.Domain.Entities
+﻿namespace AppStore.Domain.Entities
 {
     public class Address
     {

@@ -5,6 +5,7 @@ using RabbitMQ.Client;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using static AppStore.Domain.Entities.Enums;
 
 namespace AppStore.Service
 {
@@ -22,7 +23,7 @@ namespace AppStore.Service
             if (CheckExistingPurchaseByCodeAndTaxNumber(purchase.Code, purchase.TaxNumber).Result == true)
                 throw new Exception(string.Format(ServiceExceptionMsg.EXC0003, purchase.Code, purchase.TaxNumber));
 
-            purchase.Status = "Created";
+            purchase.Status = Enum.GetName(typeof(PurchaseStatus), PurchaseStatus.Created);
 
             await _purchaseRepository.Insert(purchase);
 

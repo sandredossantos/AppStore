@@ -33,7 +33,7 @@ namespace AppStore.Api.Controllers
         [HttpPost("CreateUser")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateUser(UserViewModel userViewModel)
+        public async Task<IActionResult> CreateUser(UserModel userViewModel)
         {
             try
             {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AppStore.Api.Models
 {
-    public class UserViewModel
+    public class UserModel
     {
         [Required]
         public string Name { get; set; }

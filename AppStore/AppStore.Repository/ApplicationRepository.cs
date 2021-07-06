@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AppStore.Repository
 {
-    public class ApplicationRepository : IAplicationRepository
+    public class ApplicationRepository : IApplicationRepository
     {
         private readonly IMongoCollection<Application> _applicationCollection;
 

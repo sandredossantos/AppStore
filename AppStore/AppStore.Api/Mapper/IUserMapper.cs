@@ -5,6 +5,6 @@ namespace AppStore.Api.Mapper
 {
     public interface IUserMapper
     {
-        User ModelToEntity(UserViewModel userViewModel);
+        User ModelToEntity(UserModel userViewModel);
     }
 }

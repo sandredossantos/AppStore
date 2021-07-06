@@ -17,4 +17,19 @@
     <ProjectReference Include="..\AppStore.Repository\AppStore.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Language\ServiceExceptionMsg.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ServiceExceptionMsg.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Language\ServiceExceptionMsg.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ServiceExceptionMsg.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

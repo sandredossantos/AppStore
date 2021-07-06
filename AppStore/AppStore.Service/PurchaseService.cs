@@ -1,6 +1,8 @@
 ﻿using AppStore.Domain.Entities;
 using AppStore.Domain.Interfaces;
+using AppStore.Service.Language;
 using RabbitMQ.Client;
+using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +19,9 @@ namespace AppStore.Service
 
         public async Task CreatePurchaseOrder(Purchase purchase)
         {
+            if (CheckExistingPurchaseByCodeAndTaxNumber(purchase.Code, purchase.TaxNumber).Result == true)
+                throw new Exception(string.Format(ServiceExceptionMsg.EXC0003, purchase.Code, purchase.TaxNumber));
+
             purchase.Status = "Created";
 
             await _purchaseRepository.Insert(purchase);
@@ -26,7 +31,7 @@ namespace AppStore.Service
 
         public void UpdateStatus(Purchase purchase, string status)
         {
-            _purchaseRepository.UpdateStatus(purchase, status);            
+            _purchaseRepository.UpdateStatus(purchase, status);
         }
 
         public Purchase GetById(string id)
@@ -36,11 +41,20 @@ namespace AppStore.Service
             return purchase;
         }
 
+        private async Task<bool> CheckExistingPurchaseByCodeAndTaxNumber(string code, string taxNumber)
+        {
+            Purchase purchase = await _purchaseRepository.GetByCodeAndTaxNumber(code, taxNumber);
+
+            if (purchase != null) return true;
+
+            return false;
+        }
+
         private void SendMessage(string message)
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
+            using (IConnection connection = factory.CreateConnection())
+            using (IModel channel = connection.CreateModel())
             {
                 channel.QueueDeclare(queue: "purchase",
                                      durable: false,
@@ -48,7 +62,7 @@ namespace AppStore.Service
                                      autoDelete: false,
                                      arguments: null);
 
-                var body = Encoding.UTF8.GetBytes(message);
+                byte[] body = Encoding.UTF8.GetBytes(message);
 
                 channel.BasicPublish(exchange: "",
                                      routingKey: "purchase",

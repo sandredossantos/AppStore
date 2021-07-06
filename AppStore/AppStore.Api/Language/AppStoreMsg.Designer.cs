@@ -131,5 +131,14 @@ namespace AppStore.Api.Language {
                 return ResourceManager.GetString("INF0008", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INF0009 - There is no user with TaxNumber {0}.
+        /// </summary>
+        public static string INF0009 {
+            get {
+                return ResourceManager.GetString("INF0009", resourceCulture);
+            }
+        }
     }
 }

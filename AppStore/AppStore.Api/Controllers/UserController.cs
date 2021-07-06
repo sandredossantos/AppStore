@@ -5,6 +5,7 @@ using AppStore.Domain.Entities;
 using AppStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -16,11 +17,17 @@ namespace AppStore.Api.Controllers
     {
         private readonly IUserService _userService;
         private readonly IUserMapper _userMapper;
+        private readonly ILogger _logger;
 
-        public UserController(IUserService userService, IUserMapper userMapper)
+        public UserController(
+            IUserService userService, 
+            IUserMapper userMapper,
+            ILogger<UserController> logger
+            )
         {
             _userService = userService;
             _userMapper = userMapper;
+            _logger = logger;
         }
         
         [HttpPost("CreateUser")]
@@ -41,9 +48,10 @@ namespace AppStore.Api.Controllers
 
                 return Ok(new { Success = true, Message = AppStoreMsg.INF0001 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest(new { Success = false, Message = AppStoreMsg.INF0002 });
+                _logger.LogError(ex.Message);
+                return BadRequest(new { Success = false, Message = ex.Message });
             }
         }
     }

@@ -16,6 +16,15 @@ namespace AppStore.Repository
             _purchaseCollection = database.GetCollection<Purchase>(nameof(Purchase));
         }
 
+        public async Task<Purchase> GetByCodeAndTaxNumber(string code, string taxNumber)
+        {
+            Purchase purchase = await _purchaseCollection.Find(
+               p => (p.Code == code) && (p.TaxNumber == taxNumber)
+               ).FirstOrDefaultAsync();
+
+            return purchase;
+        }
+
         public Purchase GetById(string id)
         {
             Purchase purchase = _purchaseCollection.Find(

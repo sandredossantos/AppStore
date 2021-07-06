@@ -5,6 +5,7 @@ using AppStore.Domain.Entities;
 using AppStore.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,20 +17,27 @@ namespace AppStore.Api.Controllers
     public class AppStoreController : ControllerBase
     {
         private readonly IApplicationService _applicationService;
+        private readonly IPurchaseService _purchaseService;
+        private readonly IUserService _userService;
         private readonly IApplicationMapper _applicationMapper;
         private readonly IPurchaseMapper _purchaseMapper;
-        private readonly IPurchaseService _purchaseService;
+        private readonly ILogger _logger;
 
         public AppStoreController(
             IApplicationService applicationService,
+            IPurchaseService purchaseService,
+            IUserService userService,
             IApplicationMapper applicationMapper,
             IPurchaseMapper purchaseMapper,
-            IPurchaseService purchaseService)
+            ILogger<AppStoreController> logger
+            )
         {
             _applicationService = applicationService;
+            _purchaseService = purchaseService;
+            _userService = userService;
             _applicationMapper = applicationMapper;
             _purchaseMapper = purchaseMapper;
-            _purchaseService = purchaseService;
+            _logger = logger;
         }
 
         [HttpGet("GetAllApps")]
@@ -43,8 +51,9 @@ namespace AppStore.Api.Controllers
 
                 return Ok(allApps);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogCritical(ex.Message);
                 return BadRequest(new { Success = false, Message = AppStoreMsg.INF0003 });
             }
         }
@@ -61,15 +70,16 @@ namespace AppStore.Api.Controllers
                 if (!ModelState.IsValid)
                     throw new Exception(AppStoreMsg.INF0008);
 
-                Application application = _applicationMapper.ModelToEntity(applicationViewModel); 
+                Application application = _applicationMapper.ModelToEntity(applicationViewModel);
 
                 await _applicationService.RegisterApplication(application);
 
                 return Ok(new { Success = true, Message = AppStoreMsg.INF0004 });
             }
-            catch(Exception)
+            catch (Exception ex)
             {
-                return BadRequest(new { Success = false, Message = AppStoreMsg.INF0005 });
+                _logger.LogError(ex.Message);
+                return BadRequest(new { Success = false, Message = ex.Message });
             }
         }
 
@@ -85,15 +95,19 @@ namespace AppStore.Api.Controllers
                 if (!ModelState.IsValid)
                     throw new Exception(AppStoreMsg.INF0008);
 
+                if (_userService.GetByTaxNumber(purchaseModel.TaxNumber).Result == null)
+                    throw new Exception(string.Format(AppStoreMsg.INF0009, purchaseModel.TaxNumber));
+
                 Purchase purchase = _purchaseMapper.ModelToEntity(purchaseModel);
 
                 _purchaseService.CreatePurchaseOrder(purchase);
 
                 return Ok(new { Success = true, Message = AppStoreMsg.INF0006 });
             }
-            catch(Exception)
+            catch (Exception ex)
             {
-                return BadRequest(new { Success = false, Message = AppStoreMsg.INF0007 });
+                _logger.LogError(ex.Message);
+                return BadRequest(new { Success = false, Message = ex.Message });
             }
         }
     }

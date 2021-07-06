@@ -23,6 +23,15 @@ namespace AppStore.Repository
             return await _applicationCollection.Find(a => true).ToListAsync();
         }
 
+        public async Task<Application> GetByCode(string code)
+        {
+            Application application = await _applicationCollection.Find(
+                a => a.Code == code
+                ).FirstOrDefaultAsync();
+
+            return application;
+        }
+
         public async Task<Application> Insert(Application application)
         {
             await _applicationCollection.InsertOneAsync(application);

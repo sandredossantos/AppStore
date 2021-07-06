@@ -14,29 +14,21 @@ namespace AppStore.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AppStoreController : ControllerBase
+    public class ApplicationController : ControllerBase
     {
-        private readonly IApplicationService _applicationService;
-        private readonly IPurchaseService _purchaseService;
-        private readonly IUserService _userService;
+        private readonly IApplicationService _applicationService;        
         private readonly IApplicationMapper _applicationMapper;
-        private readonly IPurchaseMapper _purchaseMapper;
         private readonly ILogger _logger;
 
-        public AppStoreController(
+        public ApplicationController
+            (
             IApplicationService applicationService,
-            IPurchaseService purchaseService,
-            IUserService userService,
             IApplicationMapper applicationMapper,
-            IPurchaseMapper purchaseMapper,
-            ILogger<AppStoreController> logger
+            ILogger<ApplicationController> logger
             )
         {
             _applicationService = applicationService;
-            _purchaseService = purchaseService;
-            _userService = userService;
-            _applicationMapper = applicationMapper;
-            _purchaseMapper = purchaseMapper;
+            _applicationMapper = applicationMapper;           
             _logger = logger;
         }
 
@@ -75,34 +67,6 @@ namespace AppStore.Api.Controllers
                 await _applicationService.RegisterApp(application);
 
                 return Ok(new { Success = true, Message = AppStoreMsg.INF0004 });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest(new { Success = false, Message = ex.Message });
-            }
-        }
-
-        [HttpPost("PurchaseApp")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PurchaseApp(PurchaseModel purchaseModel)
-        {
-            try
-            {
-                TryValidateModel(purchaseModel);
-
-                if (!ModelState.IsValid)
-                    throw new Exception(AppStoreMsg.INF0008);
-
-                if (_userService.GetByTaxNumber(purchaseModel.TaxNumber).Result == null)
-                    throw new Exception(string.Format(AppStoreMsg.INF0009, purchaseModel.TaxNumber));
-
-                Purchase purchase = _purchaseMapper.ModelToEntity(purchaseModel);
-
-                await _purchaseService.CreatePurchaseOrder(purchase);
-
-                return Ok(new { Success = true, Message = AppStoreMsg.INF0006 });
             }
             catch (Exception ex)
             {

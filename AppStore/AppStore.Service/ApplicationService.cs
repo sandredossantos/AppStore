@@ -22,6 +22,14 @@ namespace AppStore.Service
 
             return applications;
         }
+
+        public async Task<Application> GetByCode(string code)
+        {
+            Application application = await _aplicationRepository.GetByCode(code);
+
+            return application;
+        }
+
         public async Task RegisterApp(Application application)
         {
             if (CheckExistingApplicationByCode(application.Code).Result == true)

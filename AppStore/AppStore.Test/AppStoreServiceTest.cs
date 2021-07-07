@@ -1,6 +1,7 @@
 ﻿using AppStore.Domain.Entities;
 using AppStore.Domain.Interfaces;
 using AppStore.Service;
+using MongoDB.Bson;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace AppStore.Test
         {
             //Arrange
             Mock<IUserRepository> mock = new Mock<IUserRepository>();
-            mock.Setup(m => m.Insert(It.IsAny<User>())).Returns(Task.FromResult(new User() { Id = Guid.NewGuid().ToString() }));
+            mock.Setup(m => m.Insert(It.IsAny<User>())).Returns(Task.FromResult(new User() { Id = "5dc1039a1521eaa36835e541" }));
 
             User user = new User()
             {
@@ -55,7 +56,7 @@ namespace AppStore.Test
             mock.Setup(m => m.GetByTaxNumber(It.IsAny<string>())).Returns(Task.FromResult(
                 new User()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "5dc1039a1521eaa36835e541",
                     Name = "Sandre",
                     Sex = "Male",
                     TaxNumber = "45966089499",
@@ -88,7 +89,7 @@ namespace AppStore.Test
         {
             //Arrange
             Mock<IPurchaseRepository> mock = new Mock<IPurchaseRepository>();
-            mock.Setup(m => m.Insert(It.IsAny<Purchase>())).Returns(Task.FromResult(new Purchase() { Id = Guid.NewGuid().ToString(), Status = "Created" }));
+            mock.Setup(m => m.Insert(It.IsAny<Purchase>())).Returns(Task.FromResult(new Purchase() { Id = "5dc1039a1521eaa36835e541", Status = "Created" }));
 
             Purchase purchase = new Purchase()
             {
@@ -115,7 +116,7 @@ namespace AppStore.Test
             mock.Setup(m => m.GetById(It.IsAny<string>())).Returns((
                 new Purchase()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "5dc1039a1521eaa36835e541",
                     Status = "Created",
                     TaxNumber = "45906689066",
                     Code = "909",
@@ -124,7 +125,7 @@ namespace AppStore.Test
                     SecurityCode = 123
                 }));
 
-            string id = Guid.NewGuid().ToString();
+            string id = "5dc1039a1521eaa36835e541";
 
             //Act
             var result = new PurchaseService(mock.Object).GetById(id);
@@ -144,21 +145,19 @@ namespace AppStore.Test
                 {
                     new Application()
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = "5dc1039a1521eaa36835e541",
                         Code = "001",
                         Name = "Application A",
                         Value = 12.00M
                     }, 
                     new Application()
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = "5dc1039a1521eaa36835e541",
                         Code = "002",
                         Name = "Application B",
                         Value = 13.00M
                     }
                 })));
-
-            string id = Guid.NewGuid().ToString();
 
             //Act
             var result = new ApplicationService(mock.Object).GetAllApps();
@@ -177,7 +176,7 @@ namespace AppStore.Test
             mock.Setup(m => m.GetByCode(It.IsAny<string>())).Returns(Task.FromResult(
                 new Application()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "5dc1039a1521eaa36835e541",
                     Code = "001",
                     Name = "Application A",
                     Value = 12.00M
@@ -202,7 +201,7 @@ namespace AppStore.Test
             mock.Setup(m => m.Insert(It.IsAny<Application>())).Returns(Task.FromResult(
                 new Application()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = "5dc1039a1521eaa36835e541",
                     Code = "001",
                     Name = "Application A",
                     Value = 12.00M
@@ -210,7 +209,7 @@ namespace AppStore.Test
 
             Application application = new Application()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = "5dc1039a1521eaa36835e541",
                 Code = "001",
                 Name = "Application A",
                 Value = 12.00M

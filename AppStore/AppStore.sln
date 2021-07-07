@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Message", "Message", "{FC59
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppStore.Consumer", "AppStore.Consumer\AppStore.Consumer.csproj", "{BDE6789D-8EB4-4722-A3E4-C214D4DB7490}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppStore.Test", "AppStore.Test\AppStore.Test.csproj", "{DD2D1C51-2EB9-4620-97FE-80C1206C2731}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{BDE6789D-8EB4-4722-A3E4-C214D4DB7490}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDE6789D-8EB4-4722-A3E4-C214D4DB7490}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDE6789D-8EB4-4722-A3E4-C214D4DB7490}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD2D1C51-2EB9-4620-97FE-80C1206C2731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD2D1C51-2EB9-4620-97FE-80C1206C2731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD2D1C51-2EB9-4620-97FE-80C1206C2731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD2D1C51-2EB9-4620-97FE-80C1206C2731}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +60,7 @@ Global
 		{1DD515CE-F680-4557-B070-A86DCFECD911} = {8FF0CCC8-CDF9-4D1A-B55B-796C73068290}
 		{FC59640B-1057-4B68-B488-993985DEC2A2} = {8FF0CCC8-CDF9-4D1A-B55B-796C73068290}
 		{BDE6789D-8EB4-4722-A3E4-C214D4DB7490} = {FC59640B-1057-4B68-B488-993985DEC2A2}
+		{DD2D1C51-2EB9-4620-97FE-80C1206C2731} = {8FF0CCC8-CDF9-4D1A-B55B-796C73068290}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B176F14B-352F-49CB-9D9F-FE289142A1D8}

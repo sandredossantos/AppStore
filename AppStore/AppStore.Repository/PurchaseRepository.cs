@@ -25,9 +25,11 @@ namespace AppStore.Repository
             return purchase;
         }
 
-        public async Task Insert(Purchase purchase)
+        public async Task<Purchase> Insert(Purchase purchase)
         {
             await _purchaseCollection.InsertOneAsync(purchase);
+
+            return purchase;
         }
 
         public void UpdateStatus(Purchase purchase, string status)

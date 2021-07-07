@@ -20,7 +20,7 @@ Senha: Sandre!321
 
 * O banco de dados para persistência utilizado foi o MongoDB Atlas.
 
-Para que possa ser visualizado as collections faz necessário o login https://account.mongodb.com/account/login?signedOut=true
+Para que possa ser visualizado as collections faz necessário o login https://account.mongodb.com/
 
 Usuário: sandredossantos@hotmail.com
 

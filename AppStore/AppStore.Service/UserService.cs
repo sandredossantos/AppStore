@@ -14,12 +14,14 @@ namespace AppStore.Service
             _userRepository = userRepository;
         }
 
-        public async Task CreateUser(User user)
+        public async Task<User> CreateUser(User user)
         {
             if (CheckExistingUser(user.TaxNumber).Result == true)
                 throw new Exception(string.Format(ServiceExceptionMsg.EXC0001, user.TaxNumber));
 
-            await _userRepository.Insert(user);
+            User newUser = await _userRepository.Insert(user);
+
+            return newUser; 
         }
 
         public async Task<User> GetByTaxNumber(string taxNumber)

@@ -7,7 +7,7 @@ namespace AppStore.Domain.Entities
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; private set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public decimal Value { get; set; }
         public string Code { get; set; }

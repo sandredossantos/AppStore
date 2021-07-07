@@ -30,12 +30,14 @@ namespace AppStore.Service
             return application;
         }
 
-        public async Task RegisterApp(Application application)
+        public async Task<Application> RegisterApp(Application application)
         {
             if (CheckExistingApplicationByCode(application.Code).Result == true)
                 throw new Exception(ServiceExceptionMsg.EXC0002);
 
-            await _aplicationRepository.Insert(application);
+            Application newApplication = await _aplicationRepository.Insert(application);
+
+            return newApplication;
         }
 
         private async Task<bool> CheckExistingApplicationByCode(string code)

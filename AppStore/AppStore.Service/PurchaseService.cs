@@ -18,16 +18,18 @@ namespace AppStore.Service
             _purchaseRepository = purchaseRepository;
         }
 
-        public async Task CreatePurchaseOrder(Purchase purchase)
+        public async Task<Purchase> CreatePurchaseOrder(Purchase purchase)
         {
             if (CheckExistingPurchaseByCodeAndTaxNumber(purchase.Code, purchase.TaxNumber).Result == true)
                 throw new Exception(string.Format(ServiceExceptionMsg.EXC0003, purchase.Code, purchase.TaxNumber));
 
             purchase.Status = Enum.GetName(typeof(PurchaseStatus), PurchaseStatus.Created);
 
-            await _purchaseRepository.Insert(purchase);
+            Purchase newPurchase = await _purchaseRepository.Insert(purchase);
 
-            SendMessage(purchase.Id);
+            SendMessage(newPurchase.Id);
+
+            return newPurchase;
         }
 
         public void UpdateStatus(Purchase purchase, string status)

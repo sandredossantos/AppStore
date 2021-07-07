@@ -8,6 +8,6 @@ namespace AppStore.Domain.Interfaces
     {
         Task<List<Application>> GetAllApps();
         Task<Application> GetByCode(string code);
-        Task RegisterApp(Application application);
+        Task<Application> RegisterApp(Application application);
     }
 }

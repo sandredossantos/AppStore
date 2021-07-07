@@ -31,4 +31,13 @@ Senha: Sandre!321
 
 * A documentação foi criada utilizando o Swagger.
 
-* Para o versionamento utilizado gitflow com o básico de conventional commits
+* Para o versionamento utilizado GitFlow com o básico de Conventional Commits.
+
+* Para os testes automatizados utilizado xUnit.
+
+Para que possam ser feitos os testes se faz necessário seguir o seguinte cenário base:
+
+1. Criação de um novo usuário.
+2. Consultar aplicativos disponíveis, caso não tenha dados, pode ser feito o registro.
+3. Solicitação de compra, utilizando o cpf do usuário e o código do aplicativo.
+4. O processamento é feito pelo Consumer, alterando o status da compra para processado.

@@ -70,7 +70,16 @@ namespace AppStore.Api.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INF0003 - Error querying available applications.
+        ///   Looks up a localized string similar to INF0002 - Error querying available applications.
+        /// </summary>
+        public static string INF0002 {
+            get {
+                return ResourceManager.GetString("INF0002", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INF0003 - The application has been registered.
         /// </summary>
         public static string INF0003 {
             get {
@@ -79,7 +88,7 @@ namespace AppStore.Api.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INF0004 - The application has been registered.
+        ///   Looks up a localized string similar to INF0004 - Purchase made successfully.
         /// </summary>
         public static string INF0004 {
             get {
@@ -88,7 +97,16 @@ namespace AppStore.Api.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INF0006 - Purchase made successfully.
+        ///   Looks up a localized string similar to INF0005 - Some input parameter is incorrect.
+        /// </summary>
+        public static string INF0005 {
+            get {
+                return ResourceManager.GetString("INF0005", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INF0006 - There is no user with TaxNumber {0}.
         /// </summary>
         public static string INF0006 {
             get {
@@ -97,29 +115,11 @@ namespace AppStore.Api.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to INF0008 - Some input parameter is incorrect.
+        ///   Looks up a localized string similar to INF0007 - Code {0} for application does not exist.
         /// </summary>
-        public static string INF0008 {
+        public static string INF0007 {
             get {
-                return ResourceManager.GetString("INF0008", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to INF0009 - There is no user with TaxNumber {0}.
-        /// </summary>
-        public static string INF0009 {
-            get {
-                return ResourceManager.GetString("INF0009", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to INF0010 - Code {0} for application does not exist.
-        /// </summary>
-        public static string INF0010 {
-            get {
-                return ResourceManager.GetString("INF0010", resourceCulture);
+                return ResourceManager.GetString("INF0007", resourceCulture);
             }
         }
     }

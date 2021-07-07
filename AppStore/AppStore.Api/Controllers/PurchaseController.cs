@@ -46,19 +46,19 @@ namespace AppStore.Api.Controllers
                 TryValidateModel(purchaseModel);
 
                 if (!ModelState.IsValid)
-                    throw new Exception(AppStoreMsg.INF0008);
+                    throw new Exception(AppStoreMsg.INF0005);
 
                 if (_userService.GetByTaxNumber(purchaseModel.TaxNumber).Result == null)
-                    throw new Exception(string.Format(AppStoreMsg.INF0009, purchaseModel.TaxNumber));
+                    throw new Exception(string.Format(AppStoreMsg.INF0006, purchaseModel.TaxNumber));
 
                 if (_applicationService.GetByCode(purchaseModel.Code).Result == null)
-                    throw new Exception(string.Format(AppStoreMsg.INF0010, purchaseModel.Code));
+                    throw new Exception(string.Format(AppStoreMsg.INF0007, purchaseModel.Code));
 
                 Purchase purchase = _purchaseMapper.ModelToEntity(purchaseModel);
 
                 await _purchaseService.CreatePurchaseOrder(purchase);
 
-                return Ok(new { Success = true, Message = AppStoreMsg.INF0006 });
+                return Ok(new { Success = true, Message = AppStoreMsg.INF0004 });
             }
             catch (Exception ex)
             {

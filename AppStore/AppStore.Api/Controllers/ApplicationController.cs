@@ -59,7 +59,7 @@ namespace AppStore.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return BadRequest(new { Success = false, Message = AppStoreMsg.INF0003 });
+                return BadRequest(new { Success = false, Message = AppStoreMsg.INF0002 });
             }
         }
 
@@ -73,13 +73,13 @@ namespace AppStore.Api.Controllers
                 TryValidateModel(applicationViewModel);
 
                 if (!ModelState.IsValid)
-                    throw new Exception(AppStoreMsg.INF0008);
+                    throw new Exception(AppStoreMsg.INF0005);
 
                 Application application = _applicationMapper.ModelToEntity(applicationViewModel);
 
                 await _applicationService.RegisterApp(application);
 
-                return Ok(new { Success = true, Message = AppStoreMsg.INF0004 });
+                return Ok(new { Success = true, Message = AppStoreMsg.INF0003 });
             }
             catch (Exception ex)
             {

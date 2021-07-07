@@ -41,7 +41,7 @@ namespace AppStore.Api.Controllers
                 TryValidateModel(userViewModel);
 
                 if (!ModelState.IsValid)
-                    throw new Exception(AppStoreMsg.INF0008);
+                    throw new Exception(AppStoreMsg.INF0005);
 
                 User user = _userMapper.ModelToEntity(userViewModel);
 

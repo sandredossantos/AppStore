@@ -5,7 +5,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Elmah.Io.AspNetCore" Version="3.12.24" />
+    <PackageReference Include="Elmah.Io.Extensions.Logging" Version="3.10.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AppStore.Domain\AppStore.Domain.csproj" />
+    <ProjectReference Include="..\AppStore.Service\AppStore.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Language\AppStoreMsg.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AppStoreMsg.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Language\AppStoreMsg.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AppStoreMsg.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

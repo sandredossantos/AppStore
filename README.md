@@ -11,21 +11,7 @@ Para este projeto foi utlizado .NET Core 5, conceitos de Clean Code, Clean Archi
 
 https://docs.microsoft.com/pt-br/aspnet/core/fundamentals/logging/?view=aspnetcore-5.0.
 
-Para que possa ser visualizado os logs faz necessário o login https://app.elmah.io/login/
-
-Usuário: sandredossantos.elmahio@gmail.com
-
-Senha: Sandre!321
-
-
 * O banco de dados para persistência utilizado foi o MongoDB Atlas.
-
-Para que possa ser visualizado as collections faz necessário o login https://account.mongodb.com/
-
-Usuário: sandredossantos@hotmail.com
-
-Senha: Sandre!321
-
 
 * O Message Broker utilizado foi o RabbitMQ.
 
